@@ -16,33 +16,25 @@ import csv
 muckrock_api_key = os.environ["muckrock_api_key"]
 
 class BulkFile(AddOn):
-    """An example Add-On for DocumentCloud."""
 
     def main(self):
         """The main add-on functionality goes here."""
         # fetch your add-on specific data
         name = self.data.get("spreadsheet", "api_key)
-                             
-        credentials = {
-            "type": "service_account",
-            "project_id": "api-project-XXX",
-            "private_key_id": "2cd … ba4",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nNrDyLw … jINQh/9\n-----END PRIVATE KEY-----\n",
-            "client_email": "473000000000-yoursisdifferent@developer.gserviceaccount.com",
-            "client_id": "473 … hd.apps.googleusercontent.com",
-            ...
-        }
-                             
-        credentials = {
-            "type": "service_account",
-            "project_id": os.environ["project_id"]
-            "private_key_id": os.environ["private_key_id"]
-            "private_key": os.environ["private_key"]
-            "client_email": os.environ["client_email"],
-            "client_id": os.environ["client_id"]
-        }
 
-        gc = gspread.service_account_from_dict(credentials)
+	credentials = {
+	    "installed": {
+		"client_id": os.environ["google_client_id"],
+		"project_id": os.environ["google_project_id"],
+ 		"auth_uri":"https://accounts.google.com/o/oauth2/auth",
+		"token_uri":"https://oauth2.googleapis.com/token",
+		"auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","
+		"client_secret":os.environ["google_client_secret"],
+		"redirect_uris":"http://localhost"
+	    }
+	}
+	gc, authorized_user = gspread.oauth_from_dict(credentials)
+
         
         row = 2 # skip the first row, which is reserved for headers
         worksheet = 0 # worksheets are 0-indexed
