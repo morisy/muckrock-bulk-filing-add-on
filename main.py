@@ -64,7 +64,7 @@ class BulkFile(AddOn):
                         try:
                             data = json.dumps({
                                 'agency': sht1.cell(row, 1).value,
-                                'title': sht1.cell(row, 3).value
+                                'title': sht1.cell(row, 3).value,
                                 'full_text': sht1.cell(row, 2).value,
                         #        'attachments': [attachment],
                         #         'embargo': True
