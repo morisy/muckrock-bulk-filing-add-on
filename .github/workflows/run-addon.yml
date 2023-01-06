@@ -5,3 +5,11 @@ on: repository_dispatch
 jobs:
   Run-Add-On:
     uses: MuckRock/documentcloud-addon-workflows/.github/workflows/run-addon.yml@v1
+    with:
+      timeout: 360
+    secrets:
+      MUCKROCK_API_KEY: ${{ secrets.MUCKROCK_API_KEY }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_PROJECT_ID }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      
