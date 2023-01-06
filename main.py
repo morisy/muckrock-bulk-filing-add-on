@@ -72,9 +72,9 @@ class BulkFile(AddOn):
                             })
 
                         # The request will be saved as a draft if you do not have any requests left
-                        r = requests.post(url + 'foia/', headers=headers, data=data)
-                        sht1.update_cell(row, 4, "Filed Succesully")
-                        print(r)
+                            r = requests.post(url + 'foia/', headers=headers, data=data)
+                            sht1.update_cell(row, 4, "Filed Succesully")
+                            print(r)
                         row += 1                       
             except:
                 break
