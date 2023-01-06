@@ -1,6 +1,17 @@
 
 name: Run Add-On
-on: repository_dispatch
+on:
+  repository_dispatch:
+    secrets:
+      MUCKROCK_API_KEY:
+        required: true
+      GOOGLE_CLIENT_ID:
+        required: true
+      GOOGLE_PROJECT_ID:
+        required: true
+      GOOGLE_CLIENT_SECRET:
+        required: true
+        
 
 jobs:
   Run-Add-On:
