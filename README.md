@@ -14,3 +14,7 @@ the new Add-On will diverge significantly from this code base.
 After copying the template, remember to update this README file to describe
 your new Add-On!  It is a good idea to leave the link to the Add-On
 documentation at the top of the file though.
+
+## Some Helpful Resources
+
+https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/reusing-workflows#example-reusable-workflow
