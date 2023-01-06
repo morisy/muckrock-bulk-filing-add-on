@@ -1,10 +1,5 @@
 """
-This is a hello world add-on for DocumentCloud.
-
-It demonstrates how to write a add-on which can be activated from the
-DocumentCloud add-on system and run using Github Actions.  It receives data
-from DocumentCloud via the request dispatch and writes data back to
-DocumentCloud using the standard API
+Danger Will Robinson.
 """
 
 from documentcloud.addon import AddOn
@@ -37,7 +32,7 @@ class BulkFile(AddOn):
         
         row = 2 # skip the first row, which is reserved for headers
         worksheet = 0 # worksheets are 0-indexed
-	spreadsheet = self.data.get("spreadsheet")
+        spreadsheet = self.data.get("spreadsheet")
 
         self.set_message("Opening the spreadsheet %s..."%spreadsheet)
                              
@@ -46,33 +41,26 @@ class BulkFile(AddOn):
         'Authorization': 'Token %s' % token,
         'content-type': 'application/json'
         }
+                            
                              
- '''
- Expected Columns:
- 1: Agency ID
- 2: Request Language
- 3: Custom Title
- 4: Filed Status
- '''
-                             
-		try:
-			if spreadsheet.startswith("http"):
-				self.set_message("Opening spreadsheet by url...")
-				sht1 = gc.open_by_url(spreadsheet).get_worksheet(worksheet)
-			else: # Try to open it just by name
-				sht1 = gc.open(spreadsheet).get_worksheet(worksheet)
-		except:
-			 self.set_message("Couldn't open the spreadsheet. Check the url and try again.")
-			return
-		while True:
-			self.set_message("Checking row %s..."%row)
-			try:
+        try:
+            if spreadsheet.startswith("http"):
+                self.set_message("Opening spreadsheet by url...")
+                ht1 = gc.open_by_url(spreadsheet).get_worksheet(worksheet)
+            else: # Try to open it just by name
+                sht1 = gc.open(spreadsheet).get_worksheet(worksheet)
+        except:
+            self.set_message("Couldn't open the spreadsheet. Check the url and try again.")
+            return
+        while True:
+            self.set_message("Checking row %s..."%row)
+            try:
                 agency = sht1.cell(row, 1).value
-				if agency == "" or agency == None:
-					self.set_message("No agency at row %s, terminating run here."%row)
-					break
+                if agency == "" or agency == None:
+                    self.set_message("No agency at row %s, terminating run here."%row)
+                    break
                 else:
-					if sht1.cell(row, 4).value == None or sht1.cell(row, 4).value == "": # Check Filed Status
+                    if sht1.cell(row, 4).value == None or sht1.cell(row, 4).value == "": # Check Filed Status
                         try:
                             data = json.dumps({
                                 'agency': sht1.cell(row, 1).value,
@@ -87,9 +75,9 @@ class BulkFile(AddOn):
                         r = requests.post(url + 'foia/', headers=headers, data=data)
                         sht1.update_cell(row, 4, "Filed Succesully")
                         print(r)
-					    row += 1
-			except:
-				break
+                        row += 1                       
+            except:
+                break
 
 
 
