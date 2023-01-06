@@ -8,30 +8,96 @@ DocumentCloud using the standard API
 """
 
 from documentcloud.addon import AddOn
+import gspread
+import re, os
+from datetime import datetime
+import csv
 
+muckrock_api_key = os.environ["muckrock_api_key"]
 
-class HelloWorld(AddOn):
+class BulkFile(AddOn):
     """An example Add-On for DocumentCloud."""
 
     def main(self):
         """The main add-on functionality goes here."""
         # fetch your add-on specific data
-        name = self.data.get("name", "world")
+        name = self.data.get("spreadsheet", "api_key)
+                             
+        credentials = {
+            "type": "service_account",
+            "project_id": "api-project-XXX",
+            "private_key_id": "2cd … ba4",
+            "private_key": "-----BEGIN PRIVATE KEY-----\nNrDyLw … jINQh/9\n-----END PRIVATE KEY-----\n",
+            "client_email": "473000000000-yoursisdifferent@developer.gserviceaccount.com",
+            "client_id": "473 … hd.apps.googleusercontent.com",
+            ...
+        }
+                             
+        credentials = {
+            "type": "service_account",
+            "project_id": os.environ["project_id"]
+            "private_key_id": os.environ["private_key_id"]
+            "private_key": os.environ["private_key"]
+            "client_email": os.environ["client_email"],
+            "client_id": os.environ["client_id"]
+        }
 
-        self.set_message("Hello World start!")
+        gc = gspread.service_account_from_dict(credentials)
+        
+        row = 2 # skip the first row, which is reserved for headers
+        worksheet = 0 # worksheets are 0-indexed
+        self.set_message("Opening the spreadsheet %s..."%spreadsheet)
+                             
+        url = 'https://www.muckrock.com/api_v1/'
+        headers = {
+        'Authorization': 'Token %s' % token,
+        'content-type': 'application/json'
+        }
+                             
+ '''
+ Expected Columns:
+ 1: Agency ID
+ 2: Request Language
+ 3: Custom Title
+ 4: Filed Status
+ '''
+                             
+		try:
+			if spreadsheet.startswith("http"):
+				self.set_message("Opening spreadsheet by url...")
+				sht1 = gc.open_by_url(spreadsheet).get_worksheet(worksheet)
+			else: # Try to open it just by name
+				sht1 = gc.open(spreadsheet).get_worksheet(worksheet)
+		except:
+			 self.set_message("Couldn't open the spreadsheet. Check the url and try again.")
+			return
+		while True:
+			self.set_message("Checking row %s..."%row)
+			try:
+                agency = sht1.cell(row, 1).value
+				if agency == "" or agency == None:
+					self.set_message("No agency at row %s, terminating run here."%row)
+					break
+                else:
+					if sht1.cell(row, 4).value == None or sht1.cell(row, 4).value == "": # Check Filed Status
+                        try:
+                            data = json.dumps({
+                                'agency': sht1.cell(row, 1).value,
+                                'title': sht1.cell(row, 3).value
+                                'full_text': sht1.cell(row, 2).value,
+                        #        'attachments': [attachment],
+                        #         'embargo': True
+                                'permanent_embargo': True
+                            })
 
-        # add a hello note to the first page of each selected document
-        for document in self.get_documents():
-            # get_documents will iterate through all documents efficiently,
-            # either selected or by query, dependeing on which is passed in
-            document.annotations.create(f"Hello {name}!", 0)
+                        # The request will be saved as a draft if you do not have any requests left
+                        r = requests.post(url + 'foia/', headers=headers, data=data)
+                        sht1.update_cell(row, 4, "Filed Succesully")
+                        print(r)
+					    row += 1
+			except:
+				break
 
-        with open("hello.txt", "w+") as file_:
-            file_.write("Hello world!")
-            self.upload_file(file_)
-
-        self.set_message("Hello World end!")
-        self.send_mail("Hello World!", "We finished!")
 
 
 if __name__ == "__main__":
