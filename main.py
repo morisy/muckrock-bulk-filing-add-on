@@ -75,7 +75,10 @@ class BulkFile(AddOn):
                             r = requests.post(url + 'foia/', headers=headers, data=data)
                             sht1.update_cell(row, 4, "Filed Succesully")
                             print(r)
-                            row += 1                       
+                            row += 1
+                        except:
+                            row += 1 # Probbly don't need a break after this.
+                            break
             except:
                 break
 
