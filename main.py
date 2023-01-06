@@ -20,7 +20,6 @@ class BulkFile(AddOn):
     def main(self):
         """The main add-on functionality goes here."""
         # fetch your add-on specific data
-        name = self.data.get("spreadsheet", "api_key)
 
 	credentials = {
 	    "installed": {
@@ -38,6 +37,8 @@ class BulkFile(AddOn):
         
         row = 2 # skip the first row, which is reserved for headers
         worksheet = 0 # worksheets are 0-indexed
+	spreadsheet = self.data.get("spreadsheet")
+
         self.set_message("Opening the spreadsheet %s..."%spreadsheet)
                              
         url = 'https://www.muckrock.com/api_v1/'
