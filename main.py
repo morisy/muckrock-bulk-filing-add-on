@@ -93,4 +93,4 @@ class BulkFile(AddOn):
 
 
 if __name__ == "__main__":
-    HelloWorld().main()
+    BulkFile().main()
