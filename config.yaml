@@ -1,7 +1,7 @@
 # The title is the title of your Add-On
 title: MuckRock Bulk File
 # The description will be shown above the form when activating the Add-On
-description: A MuckRock-internal tool to bulk file requests that are included on a Google Sheet. Share the Google Sheet with morisy@gmail.com in advance or it won't work.
+description: A MuckRock-internal tool to bulk file requests that are included on a Google Sheet. Share the Google Sheet with morisy at gmail.com in advance or it won't work.
 # Top level type should always be object
 type: object
 # How does this add-on accept documents
