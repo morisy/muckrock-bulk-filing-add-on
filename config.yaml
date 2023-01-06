@@ -14,8 +14,11 @@ documents:
 # Properties are the fields for your form
 properties:
   # the key is the name of the variable that will be returned to your code
-  name:
-    # the title is what will be shown as the form label
-    title: Name
-    # a string is text
+  spreadsheet:
+    # The URL of a Google Sheet you want to bulk file with.
+    title: Google Sheet URL
+    type: string
+  api_key:
+    # Your MuckRock API key. Not currently actually used.
+    title: MuckRock API Key
     type: string
