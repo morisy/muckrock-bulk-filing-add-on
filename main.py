@@ -8,7 +8,6 @@ import re, os
 from datetime import datetime
 import csv
 
-muckrock_api_key = self.data.get("api_key")
 
 """
   spreadsheet:
@@ -49,13 +48,14 @@ class BulkFile(AddOn):
         }
         gc, authorized_user = gspread.oauth_from_dict(credentials)
 
-        
         row = 2 # skip the first row, which is reserved for headers
         worksheet = 0 # worksheets are 0-indexed
         spreadsheet = self.data.get("spreadsheet")
 
         self.set_message("Opening the spreadsheet %s..."%spreadsheet)
-                             
+        
+        muckrock_api_key = self.data.get("api_key")
+
         url = 'https://www.muckrock.com/api_v1/'
         headers = {
         'Authorization': 'Token %s' % token,
