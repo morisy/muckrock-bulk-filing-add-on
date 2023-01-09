@@ -46,6 +46,7 @@ class BulkFile(AddOn):
                 "redirect_uris":"http://localhost"
                 }
         }
+        print("Credentials locked and loaded."
         gc, authorized_user = gspread.oauth_from_dict(credentials)
 
         row = 2 # skip the first row, which is reserved for headers
