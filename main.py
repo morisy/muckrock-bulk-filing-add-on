@@ -51,7 +51,8 @@ class BulkFile(AddOn):
         row = 2 # skip the first row, which is reserved for headers
         worksheet = 0 # worksheets are 0-indexed
         spreadsheet = self.data.get("spreadsheet")
-
+        
+        print("Opening the spreadsheet %s..."%spreadsheet)
         self.set_message("Opening the spreadsheet %s..."%spreadsheet)
         
         muckrock_api_key = self.data.get("api_key")
@@ -73,34 +74,36 @@ class BulkFile(AddOn):
             self.set_message("Couldn't open the spreadsheet. Check the url and try again.")
             return
         while True:
-            self.set_message("Checking row %s..."%row)
-            try:
-                agency = sht1.cell(row, 1).value
-                if agency == "" or agency == None:
-                    self.set_message("No agency at row %s, terminating run here."%row)
-                    break
-                else:
-                    if sht1.cell(row, 4).value == None or sht1.cell(row, 4).value == "": # Check Filed Status
-                        try:
-                            data = json.dumps({
-                                'agency': sht1.cell(row, 1).value,
-                                'title': sht1.cell(row, 3).value,
-                                'full_text': sht1.cell(row, 2).value,
-                        #        'attachments': [attachment],
-                        #         'embargo': True
-                                'permanent_embargo': True
-                            })
+          print("Checking row %s..."%row)
+          self.set_message("Checking row %s..."%row)
+          try:
+              agency = sht1.cell(row, 1).value
+              if agency == "" or agency == None:
+                  print("No agency at row %s, terminating run here."%row)
+                  self.set_message("No agency at row %s, terminating run here."%row)
+                  break
+              else:
+                  if sht1.cell(row, 4).value == None or sht1.cell(row, 4).value == "": # Check Filed Status
+                      try:
+                          data = json.dumps({
+                              'agency': sht1.cell(row, 1).value,
+                              'title': sht1.cell(row, 3).value,
+                              'full_text': sht1.cell(row, 2).value,
+                      #        'attachments': [attachment],
+                      #         'embargo': True
+                              'permanent_embargo': True
+                          })
 
-                        # The request will be saved as a draft if you do not have any requests left
-                            r = requests.post(url + 'foia/', headers=headers, data=data)
-                            sht1.update_cell(row, 4, "Filed Succesully")
-                            print(r)
-                            row += 1
-                        except:
-                            row += 1 # Probbly don't need a break after this.
-                            break
-            except:
-                break
+                      # The request will be saved as a draft if you do not have any requests left
+                          r = requests.post(url + 'foia/', headers=headers, data=data)
+                          sht1.update_cell(row, 4, "Filed Succesully")
+                          print(r)
+                          row += 1
+                      except:
+                          row += 1 # Probbly don't need a break after this.
+                          break
+          except:
+              break
 
 
 
