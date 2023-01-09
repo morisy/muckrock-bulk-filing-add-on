@@ -8,7 +8,7 @@ import re, os
 from datetime import datetime
 import csv
 
-muckrock_api_key = os.environ["MUCKROCK_API_KEY"]
+muckrock_api_key = self.data.get("api_key")
 
 """
   spreadsheet:
@@ -38,12 +38,12 @@ class BulkFile(AddOn):
 
         credentials = {
                 "installed": {
-                "client_id": os.environ["GOOGLE_CLIENT_ID"],
-                "project_id": os.environ["GOOGLE_PROJECT_ID"],
+                "client_id": self.data.get("google_client_id"),
+                "project_id": self.data.get("google_project_id"),
                 "auth_uri":"https://accounts.google.com/o/oauth2/auth",
                 "token_uri":"https://oauth2.googleapis.com/token",
                 "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
-                "client_secret":os.environ["GOOGLE_CLIENT_SECRET"],
+                "client_secret":self.data.get("google_secret_id"),
                 "redirect_uris":"http://localhost"
                 }
         }
