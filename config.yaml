@@ -22,3 +22,12 @@ properties:
     # Your MuckRock API key. Not currently actually used.
     title: MuckRock API Key
     type: string
+  google_client_id:
+    title: Google Client ID
+    type: string
+  google_project_id:
+    title: Google Project ID
+    type: string
+  google_secret_id:
+    title: Google Client Secret
+    type: string
