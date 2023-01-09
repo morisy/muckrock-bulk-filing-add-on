@@ -10,6 +10,26 @@ import csv
 
 muckrock_api_key = os.environ["MUCKROCK_API_KEY"]
 
+"""
+  spreadsheet:
+    # The URL of a Google Sheet you want to bulk file with.
+    title: Google Sheet URL
+    type: string
+  api_key:
+    # Your MuckRock API key. Not currently actually used.
+    title: MuckRock API Key
+    type: string
+  google_client_id:
+    title: Google Client ID
+    type: string
+  google_project_id:
+    title: Google Project ID
+    type: string
+  google_secret_id:
+    title: Google Client Secret
+    type: string
+"""
+
 class BulkFile(AddOn):
 
     def main(self):
