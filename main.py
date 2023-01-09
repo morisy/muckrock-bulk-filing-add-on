@@ -78,6 +78,7 @@ class BulkFile(AddOn):
           self.set_message("Checking row %s..."%row)
           try:
               agency = sht1.cell(row, 1).value
+              print(agency)
               if agency == "" or agency == None:
                   print("No agency at row %s, terminating run here."%row)
                   self.set_message("No agency at row %s, terminating run here."%row)
