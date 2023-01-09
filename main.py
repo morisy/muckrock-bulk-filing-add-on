@@ -34,7 +34,7 @@ class BulkFile(AddOn):
     def main(self):
         """The main add-on functionality goes here."""
         # fetch your add-on specific data
-
+        print("got this far")
         credentials = {
                 "installed": {
                 "client_id": self.data.get("google_client_id"),
